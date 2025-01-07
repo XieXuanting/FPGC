@@ -6,7 +6,7 @@ from torch.nn.parameter import Parameter
 from torch_geometric.nn.conv import MessagePassing
 
 class FPGC(MessagePassing):
-    def __init__(self, n_enc_1, n_input, dim, num, r=30):
+    def __init__(self, n_enc_1, n_input, dim, num, r=14):
         super(FPGC, self).__init__()
         self.fcn1 = nn.Linear(n_input, n_enc_1)
         self.fcnFM0 = nn.Linear(num, n_input)
@@ -40,5 +40,5 @@ class FPGC(MessagePassing):
         xFM1 =  self.fcnFM1(self.fcnFM0(x2) + x0)
         xFM1 = h2*xFM1
         h_final = F.normalize(x1, dim=1, p=2)
-        h_final2 = F.normalize(xFM1, dim=1, p=2) + torch.normal(0, torch.ones_like(xFM1) * 0.01).to(device)
+        h_final2 = F.normalize(xFM1, dim=1, p=2)
         return h_final, h_final2
